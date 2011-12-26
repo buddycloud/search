@@ -1,0 +1,19 @@
+Search page for buddycloud.
+
+== Available queries ==
+
+Metadata query is used by default. 
+
+=== metadata: query ===
+
+Search for channel metadata
+
+=== post: query ===
+
+Search for channel posts
+
+== Installation steps ==
+
+easy_install Flask
+easy_install sleekxmpp
+python server.py

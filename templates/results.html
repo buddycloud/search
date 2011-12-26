@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" type="text/css" media="screen,projection" href="static/style.css" />
+<title>buddycloud search</title>
+</head>
+<body>
+
+<div id="header">
+
+	<div id="header-title">
+		<h2><span>buddy</span>cloud search</h2>
+	</div>
+	
+	<div id="header-form">
+		<form id="search" name="search" method="get" action="search">
+			<input type="hidden" name="page" id="page" value="0"/>
+  			<input type="text" name="q" id="q" class="input" value="{{ q }}" />
+  			<button id="submit">Search</button>
+		</form>
+	</div>
+	
+</div>
+
+<div id="results">
+
+	{% for item in items %}
+    	<h2><span><a href="http://beta.buddycloud.org/{{ item.jid }}">{{ item.jid }}</a></span></h2><br>
+		<h3>{{ item.title }}</h3><br>
+		{% if item.date != None %}
+			<h3>{{ item.date }}</h3><br>		
+		{% endif %}
+		<br>
+  	{% endfor %}
+  	
+  	<h3>
+  	{% for page in range(maxpage) %}
+  		
+  		{% if page != this_page %}
+  			<a href="search?page={{ page }}&q={{ q }}" target="_blank">
+  		{% endif %}
+  		
+  		{{ page + 1 }}{% if page != this_page %}</a>{% endif %}&nbsp
+  		
+	{% endfor %}
+  	</h3>
+  	
+</div>
+
+</body>
+</html>
