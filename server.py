@@ -30,4 +30,4 @@ if __name__ == '__main__':
     client = SearchClient(client_jid, client_pass, server_address)
     client.run() 
     
-    app.run()
+    app.run(host='0.0.0.0')
