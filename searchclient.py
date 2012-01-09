@@ -62,12 +62,13 @@ def parseSearchItem(itemxml, proc):
 
 class SearchClient : 
     
-    def __init__(self, jid, password, searchserver) : 
+    def __init__(self, jid, password, client_host, client_port, searchserver) : 
         self.xmpp = ClientXMPP(jid, password)
+        self.con_address = client_host, client_port
         self.searchserver = searchserver
     
     def run(self) :
-        self.xmpp.connect() 
+        self.xmpp.connect(address=self.con_address) 
         self.xmpp.process(threaded=True)
         
 

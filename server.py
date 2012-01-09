@@ -25,9 +25,12 @@ if __name__ == '__main__':
     config.readfp(open('search.cfg'))
     client_jid = config.get('searchclient', 'jid')
     client_pass = config.get('searchclient', 'password')
+    client_host = config.get('searchclient', 'host')
+    client_port = config.get('searchclient', 'port')
     server_address = config.get('channeldirectory', 'address')
     
-    client = SearchClient(client_jid, client_pass, server_address)
+    
+    client = SearchClient(client_jid, client_pass, client_host, client_port, server_address)
     client.run() 
     
     app.run(host='0.0.0.0')

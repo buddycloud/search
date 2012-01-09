@@ -26,7 +26,7 @@
 <div id="results">
 
 	{% for item in items %}
-    	<h2><span><a href="http://beta.buddycloud.org/{{ item.jid }}">{{ item.jid }}</a></span></h2><br>
+    	<h2><span><a href="http://beta.buddycloud.org/{{ item.jid }}"  target="_blank">{{ item.jid }}</a></span></h2><br>
 		<h3>{{ item.title }}</h3><br>
 		{% if item.date != None %}
 			<h3>{{ item.date }}</h3><br>		
@@ -38,7 +38,7 @@
   	{% for page in range(maxpage) %}
   		
   		{% if page != this_page %}
-  			<a href="search?page={{ page }}&q={{ q }}" target="_blank">
+  			<a href="search?page={{ page }}&q={{ q }}">
   		{% endif %}
   		
   		{{ page + 1 }}{% if page != this_page %}</a>{% endif %}&nbsp

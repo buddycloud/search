@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="package" name="buddycloud-search">
+	<property name="target.dir" value="target" />
+
+	<target name="clean">
+		<delete dir="${target.dir}"/>
+	</target>
+
+	<target name="package" depends="clean">
+		<zip destfile="${target.dir}/${ant.project.name}.zip">
+			<fileset dir="." defaultexcludes="false">
+				<exclude name=".git/**" />
+				<exclude name="build.xml" />
+				<exclude name=".project" />
+				<exclude name="*.pyc" />
+				<exclude name=".pydevproject" />
+			</fileset>
+		</zip>
+	</target>
+
+</project>

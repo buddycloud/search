@@ -1,0 +1,1 @@
+python server.py > log 2>&1 &

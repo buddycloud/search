@@ -1,19 +1,18 @@
+Apache 2.0 licensed
+
 Search page for buddycloud.
 
 == Available queries ==
-
 Metadata query is used by default. 
 
 === metadata: query ===
-
 Search for channel metadata
 
 === post: query ===
-
 Search for channel posts
 
 == Installation steps ==
-
+apt-get install python-setuptools
 easy_install Flask
 easy_install sleekxmpp
 python server.py
