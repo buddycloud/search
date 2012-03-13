@@ -19,28 +19,57 @@ def prepRSM(page):
     
     return rsm
 
-def queryNamespace(q):
-    ns = "metadata_query"
-    query = q
-    
+def prepMetadataNode(query):
+    search = ET.Element("search")
+    search.text = query
+        
+    return "metadata_query", search 
+
+def prepContentNode(query):
+    search = ET.Element("search")
+    search.text = query
+        
+    return "content_query", search
+
+def prepRecommendationNode(query):
+    search = ET.Element("user-jid")
+    search.text = query
+        
+    return "recommendation_query", search
+
+def prepSimilarityNode(query):
+    search = ET.Element("channel-jid")
+    search.text = query
+        
+    return "similar_channels", search
+
+def prepSearchNode(q):
     procType, sep, pQuery = q.partition(':')
     
-    if (procType == "post") :
-        ns = "content_query"
-        query = pQuery.rstrip()
-    elif (procType == "metadata") :
-        query = pQuery.rstrip()
+    if (not sep) :
+        return prepMetadataNode(q)
     
-    return ns, query
+    query = pQuery.strip()
+    
+    if (procType == "metadata") :
+        return prepMetadataNode(query)
+    
+    if (procType == "post") :
+        return prepContentNode(query)
+
+    if (procType == "recommend") :
+        return prepRecommendationNode(query)
+
+    if (procType == "similar") :
+        return prepSimilarityNode(query)
 
 def parseSearchItem(itemxml, proc):
 
     searchItem = None
 
-    if (proc == "metadata_query") :
+    if (proc == "metadata_query" or proc == "recommendation_query" or proc == "similar_channels") :
         ns = QUERY_NS % proc
         title = itemxml.find("{%s}title" % ns).text
-        print itemxml.attrib
         creation_date = None
         if ('created' in itemxml.attrib) :
             creation_date = itemxml.attrib['created']
@@ -75,20 +104,20 @@ class SearchClient :
     def query(self, q, page) :
                 
         rsm = prepRSM(page)
-        proc, query = queryNamespace(q)
+        proc, node = prepSearchNode(q)
         
         ns = QUERY_NS % proc
-        
-        search = ET.Element("search")
-        search.text = query
-        
         iq = self.xmpp.make_iq_get(queryxmlns=ns, ito=self.searchserver, ifrom=self.xmpp.boundjid)
 
         query = iq.xml.find("{%s}query" % ns)
-        query.append(search)
+        query.append(node)
         query.append(rsm)
         
-        response = iq.send()
+        try :
+            response = iq.send()
+        except :
+            return [], "0"
+        
         itemsxml = response.xml.findall("{%s}query/{%s}item" % (ns, ns))
         
         items = []
